@@ -1,0 +1,63 @@
+{
+  "name": "cs-minimo-viavel",
+  "version": "1.0.0",
+  "description": "CS Dashboard Mínimo Viável — @alemelo_cx",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "electron:dev": "electron .",
+    "electron:build:win": "npm run build && electron-builder --win --x64",
+    "electron:build:mac": "npm run build && electron-builder --mac",
+    "electron:build:all": "npm run build && electron-builder --win --mac"
+  },
+  "keywords": ["customer-success", "cs", "crm", "retention"],
+  "author": "Alexsandra Melo <alemelo_cx>",
+  "license": "MIT",
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.0",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1",
+    "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "electron-store": "^8.1.0"
+  },
+  "build": {
+    "appId": "cx.alemelo.csmv",
+    "productName": "CS Mínimo Viável",
+    "copyright": "© 2025 Alexsandra Melo @alemelo_cx",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "node_modules/electron-store/**/*"
+    ],
+    "win": {
+      "target": [{"target": "nsis", "arch": ["x64"]}],
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": [{"target": "dmg", "arch": ["x64", "arm64"]}],
+      "icon": "assets/icon.icns",
+      "category": "public.app-category.business"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "assets/icon.ico",
+      "installerHeaderIcon": "assets/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CS Mínimo Viável"
+    },
+    "dmg": {
+      "title": "CS Mínimo Viável",
+      "backgroundColor": "#1A0C12"
+    }
+  }
+}
