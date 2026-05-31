@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alê Melo · CS Mínimo Viável</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --v:#7D2438;--r:#A04060;--d:#B8923A;--dc:#D4B06A;
+  --nu:#F7EEE6;--nm:#EDD9C8;--cr:#FBF6F0;
+  --te:#3D1F2A;--tl:#7A4F5A;--br:#FFFFFF;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;font-weight:300;color:var(--te);background:var(--cr);overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 6%;display:flex;align-items:center;justify-content:space-between;background:rgba(61,31,42,0.97);backdrop-filter:blur(12px)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--dc);letter-spacing:.08em;cursor:pointer}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,238,230,.55);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--dc)}
+.nav-cta{background:var(--d);color:var(--te);font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;padding:10px 24px;border:none;cursor:pointer;transition:background .2s}
+.nav-cta:hover{background:var(--dc)}
+
+.hero{min-height:100vh;background:var(--te);display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:120px 6% 80px;gap:80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(184,146,58,.1) 0%,transparent 65%);pointer-events:none}
+.hero-tag{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--d);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.hero-tag::before{content:'';display:block;width:32px;height:1px;background:var(--d)}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(46px,5vw,70px);font-weight:300;color:var(--nu);line-height:1.05;margin-bottom:12px}
+h1 em{font-style:italic;color:var(--dc)}
+h1 strong{font-weight:600;display:block}
+.hero-sub{font-size:14px;color:rgba(247,238,230,.5);line-height:1.8;margin-bottom:40px;max-width:460px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-p{background:var(--d);color:var(--te);font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:15px 32px;border:none;cursor:pointer;transition:all .2s}
+.btn-p:hover{background:var(--dc);transform:translateY(-1px)}
+.btn-g{background:transparent;color:var(--dc);font-family:'Jost',sans-serif;font-size:11px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;padding:15px 32px;border:1px solid rgba(212,176,106,.3);cursor:pointer;transition:all .2s}
+.btn-g:hover{border-color:var(--dc)}
+.hero-card{background:rgba(125,36,56,.2);border:1px solid rgba(184,146,58,.15);padding:40px;backdrop-filter:blur(8px)}
+.hc-label{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--d);margin-bottom:24px}
+.hc-stat{padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid rgba(184,146,58,.1)}
+.hc-stat:last-child{padding:0;margin:0;border:none}
+.hc-num{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--dc);line-height:1}
+.hc-desc{font-size:12px;color:rgba(247,238,230,.4);margin-top:4px;line-height:1.5}
+
+.sobre{display:grid;grid-template-columns:1fr 1fr}
+.sobre-esq{background:linear-gradient(155deg,var(--v) 0%,var(--te) 100%);position:relative;overflow:hidden;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;padding:52px}
+.sobre-esq::before{content:'ALÊ';font-family:'Cormorant Garamond',serif;font-size:260px;font-weight:700;color:rgba(255,255,255,.03);position:absolute;bottom:-30px;left:-10px;line-height:1;pointer-events:none}
+.sobre-nome{font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--nu);font-weight:300;line-height:1.1;margin-bottom:8px;position:relative}
+.sobre-cargo{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--d);position:relative}
+.sobre-dir{background:var(--nu);padding:80px 64px;display:flex;flex-direction:column;justify-content:center}
+.sec-label{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--d);margin-bottom:14px}
+h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.5vw,42px);font-weight:600;line-height:1.15}
+.sobre-p{font-size:13px;color:var(--tl);line-height:1.9;margin:20px 0 32px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--nm);color:var(--tl)}
+
+.metodo{padding:100px 6%;background:var(--cr)}
+.sec-head{text-align:center;margin-bottom:70px}
+.sec-head h2{color:var(--v)}
+.sec-sub{font-size:13px;color:var(--tl);margin-top:12px;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.8}
+.pilares{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+.pilar{background:var(--br);padding:36px 22px;border-bottom:3px solid transparent;transition:all .25s;cursor:default}
+.pilar:hover{background:var(--v);border-bottom-color:var(--d)}
+.pilar:hover .p-num{color:rgba(212,176,106,.18)}
+.pilar:hover .p-tit{color:var(--dc)}
+.pilar:hover .p-desc{color:rgba(247,238,230,.55)}
+.p-num{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--nm);line-height:1;margin-bottom:14px;transition:color .25s}
+.p-tit{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--v);margin-bottom:10px;line-height:1.2;transition:color .25s}
+.p-desc{font-size:12px;color:var(--tl);line-height:1.7;transition:color .25s}
+
+.ferramenta{padding:100px 6%;background:var(--te);position:relative;overflow:hidden}
+.ferramenta::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--d),transparent)}
+.f-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:80px;align-items:center}
+.f-label{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--d);margin-bottom:14px}
+.f-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,3.5vw,46px);color:var(--nu);font-weight:300;line-height:1.1;margin-bottom:14px}
+.f-h2 em{font-style:italic;color:var(--dc)}
+.f-sub{font-size:13px;color:rgba(247,238,230,.45);line-height:1.8;margin-bottom:32px}
+.f-list{list-style:none;margin-bottom:36px}
+.f-list li{font-size:13px;color:rgba(247,238,230,.6);padding:11px 0;border-bottom:1px solid rgba(184,146,58,.08);display:flex;gap:10px;line-height:1.5}
+.f-list li::before{content:'→';color:var(--d);flex-shrink:0}
+.app-mock{background:rgba(255,255,255,.03);border:1px solid rgba(184,146,58,.12);overflow:hidden}
+.app-bar{background:rgba(125,36,56,.35);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(184,146,58,.08)}
+.app-bar-title{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--dc);letter-spacing:.07em}
+.dots{display:flex;gap:5px}
+.dot{width:8px;height:8px;border-radius:50%}
+.app-tabs-bar{display:flex;background:rgba(0,0,0,.18);border-bottom:1px solid rgba(184,146,58,.07)}
+.at{padding:10px 14px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(247,238,230,.3);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.at.on{color:var(--d);border-bottom-color:var(--d)}
+.app-body{padding:18px}
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.kpi{background:rgba(255,255,255,.03);padding:14px;border:1px solid rgba(184,146,58,.07)}
+.kpi-l{font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:rgba(247,238,230,.3);margin-bottom:6px}
+.kpi-v{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--dc);font-weight:300;line-height:1}
+.kpi-s{font-size:9px;color:rgba(247,238,230,.25);margin-top:2px}
+.cl-list{display:flex;flex-direction:column;gap:5px}
+.cl{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(184,146,58,.05)}
+.cl-name{font-size:11px;color:rgba(247,238,230,.65);flex:1}
+.cl-plan{font-size:9px;color:rgba(247,238,230,.25);letter-spacing:.07em}
+.badge{font-size:9px;padding:3px 8px;font-weight:500}
+.bg{background:rgba(27,94,32,.35);color:#81C784}
+.ba{background:rgba(123,88,0,.35);color:#FFD54F}
+.br2{background:rgba(183,28,28,.35);color:#EF9A9A}
+
+.produtos{padding:100px 6%;background:var(--nu)}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:60px}
+.pc{background:var(--br);padding:48px 40px;position:relative;transition:all .25s;cursor:default}
+.pc:hover{transform:translateY(-3px);box-shadow:0 16px 50px rgba(125,36,56,.09)}
+.pc.dest{background:var(--v)}
+.p-tipo{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--d);margin-bottom:18px}
+.pc h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--v);margin-bottom:12px;line-height:1.15}
+.pc.dest h3{color:var(--dc)}
+.pc-desc{font-size:13px;color:var(--tl);line-height:1.8;margin-bottom:26px}
+.pc.dest .pc-desc{color:rgba(247,238,230,.55)}
+.pc-preco{font-family:'Cormorant Garamond',serif;font-size:38px;color:var(--d);font-weight:300;line-height:1}
+.pc.dest .pc-preco{color:var(--dc)}
+.pc-pl{font-size:10px;color:var(--tl);letter-spacing:.1em;margin-bottom:26px}
+.pc.dest .pc-pl{color:rgba(247,238,230,.35)}
+.pc-btn{width:100%;padding:13px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--nm);background:transparent;color:var(--v);cursor:pointer;transition:all .2s;font-weight:400}
+.pc-btn:hover{background:var(--v);color:var(--nu);border-color:var(--v)}
+.pc.dest .pc-btn{background:var(--d);color:var(--te);border-color:var(--d)}
+.pc.dest .pc-btn:hover{background:var(--dc)}
+.selo{position:absolute;top:22px;right:22px;background:var(--d);color:var(--te);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:4px 12px}
+
+.lead{padding:100px 6%;background:var(--v);position:relative;overflow:hidden;text-align:center}
+.lead::before{content:'CS';font-family:'Cormorant Garamond',serif;font-size:300px;font-weight:700;color:rgba(255,255,255,.025);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap}
+.lead h2{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,58px);color:var(--nu);font-weight:300;line-height:1.1;margin-bottom:14px}
+.lead h2 strong{font-weight:600;display:block}
+.lead-sub{font-size:14px;color:rgba(247,238,230,.5);margin-bottom:44px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.8}
+.l-form{display:flex;max-width:440px;margin:0 auto 18px;flex-wrap:wrap}
+.l-in{flex:1;min-width:180px;padding:16px 18px;background:rgba(255,255,255,.07);border:1px solid rgba(212,176,106,.2);border-right:none;color:var(--nu);font-family:'Jost',sans-serif;font-size:13px;outline:none}
+.l-in::placeholder{color:rgba(247,238,230,.3)}
+.l-in:focus{background:rgba(255,255,255,.1);border-color:var(--d)}
+.l-btn{background:var(--d);color:var(--te);font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:16px 26px;border:1px solid var(--d);cursor:pointer;transition:background .2s;white-space:nowrap}
+.l-btn:hover{background:var(--dc)}
+.lead-nota{font-size:11px;color:rgba(247,238,230,.25);letter-spacing:.06em}
+
+footer{background:var(--te);padding:44px 6%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--dc)}
+.f-links{display:flex;gap:28px;list-style:none}
+.f-links a{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,238,230,.28);text-decoration:none;transition:color .2s}
+.f-links a:hover{color:var(--d)}
+.f-copy{font-size:10px;color:rgba(247,238,230,.18);letter-spacing:.07em}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.rv.vis{opacity:1;transform:none}
+
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;padding:100px 5% 60px;gap:0}
+  .hero-card{display:none}
+  .sobre{grid-template-columns:1fr}
+  .sobre-esq{min-height:260px}
+  .sobre-dir{padding:52px 32px}
+  .pilares{grid-template-columns:1fr 1fr}
+  .f-grid{grid-template-columns:1fr}
+  .app-mock{display:none}
+  .prod-grid{grid-template-columns:1fr}
+  nav .nav-links{display:none}
+  .l-form{flex-direction:column}
+  .l-in{border-right:1px solid rgba(212,176,106,.2);border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Alê Melo</div>
+  <ul class="nav-links">
+    <li><a href="#metodo">Método</a></li>
+    <li><a href="#ferramenta">Ferramenta</a></li>
+    <li><a href="#produtos">Produtos</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <button class="nav-cta" onclick="scroll('#produtos')">Quero o eBook</button>
+</nav>
+
+<section class="hero">
+  <div class="rv">
+    <div class="hero-tag">Customer Success · @alemelo_cx</div>
+    <h1>Você não precisa<br>começar <em>grande.</em><strong>Precisa começar certo.</strong></h1>
+    <p class="hero-sub">O método CS Mínimo Viável transforma a operação de Customer Success de quem não tem tempo, time nem sistema caro — em uma máquina de retenção que funciona de verdade.</p>
+    <div class="hero-actions">
+      <button class="btn-p" onclick="scroll('#produtos')">Ver o eBook</button>
+      <button class="btn-g" onclick="scroll('#ferramenta')">Usar a ferramenta gratuita</button>
+    </div>
+  </div>
+  <div class="rv">
+    <div class="hero-card">
+      <div class="hc-label">Resultados do método</div>
+      <div class="hc-stat">
+        <div class="hc-num">+11</div>
+        <div class="hc-desc">anos estruturando Customer Success em B2B</div>
+      </div>
+      <div class="hc-stat">
+        <div class="hc-num">30d</div>
+        <div class="hc-desc">para montar uma operação funcional do zero</div>
+      </div>
+      <div class="hc-stat">
+        <div class="hc-num">5</div>
+        <div class="hc-desc">pilares que substituem estruturas complexas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sobre" id="sobre">
+  <div class="sobre-esq">
+    <div class="sobre-nome">Alexsandra<br>Melo</div>
+    <div class="sobre-cargo">Head de CX · @alemelo_cx</div>
+  </div>
+  <div class="sobre-dir rv">
+    <div class="sec-label">Quem é Alê</div>
+    <h2 style="color:var(--v)">Construí CS de verdade — sem atalhos, na realidade brasileira</h2>
+    <p class="sobre-p">Assumi uma carteira de mais de 200 clientes sem processos, sem CRM caro, durante a pandemia. Busquei conteúdo no mercado e o que encontrei era genérico demais, desalinhado com a nossa realidade.<br><br>Foi aí que desenvolvi o CS Mínimo Viável: um método próprio, baseado nos 5 elementos essenciais que realmente movem retenção.</p>
+    <div class="chips">
+      <span class="chip">Customer Success</span><span class="chip">Onboarding</span>
+      <span class="chip">Health Score</span><span class="chip">Retenção B2B</span>
+      <span class="chip">SaaS</span><span class="chip">Churn</span>
+    </div>
+  </div>
+</section>
+
+<section class="metodo" id="metodo">
+  <div class="sec-head rv">
+    <div class="sec-label">O Método</div>
+    <h2>CS Mínimo Viável</h2>
+    <p class="sec-sub">5 pilares que substituem estruturas complexas e entregam retenção real desde o primeiro mês.</p>
+  </div>
+  <div class="pilares rv">
+    <div class="pilar"><div class="p-num">01</div><div class="p-tit">Base Visível</div><div class="p-desc">Clareza sobre quem são seus clientes, estágio e engajamento. O ponto de partida de tudo.</div></div>
+    <div class="pilar"><div class="p-num">02</div><div class="p-tit">Health Score Simples</div><div class="p-desc">Um semáforo com no máximo 2 critérios. Risco e sucesso visíveis sem dashboards caros.</div></div>
+    <div class="pilar"><div class="p-num">03</div><div class="p-tit">Jornada Mínima</div><div class="p-desc">3 fases com entregas claras: Onboarding, Adoção e Expansão. Um slide já cria alinhamento.</div></div>
+    <div class="pilar"><div class="p-num">04</div><div class="p-tit">Rituais de Valor</div><div class="p-desc">Check-in em 15 dias + reunião de valor em 30–45 dias. Contato intencional que retém.</div></div>
+    <div class="pilar"><div class="p-num">05</div><div class="p-tit">Playbook de Gatilhos</div><div class="p-desc">Scripts prontos para risco, churn e expansão. Reação rápida e padronizada.</div></div>
+  </div>
+</section>
+
+<section class="ferramenta" id="ferramenta">
+  <div class="f-grid">
+    <div class="rv">
+      <div class="f-label">Ferramenta gratuita</div>
+      <div class="f-h2">CS Dashboard <em>Mínimo Viável</em></div>
+      <p class="f-sub">Gerencie sua carteira sem planilha e sem sistema caro. Health Score automático, log de interações e alertas de risco — tudo integrado, no navegador.</p>
+      <ul class="f-list">
+        <li>Health Score calculado por dias sem contato</li>
+        <li>Alertas de risco em tempo real — vermelho, amarelo, verde</li>
+        <li>Log de interações com próximos passos</li>
+        <li>Playbook de scripts por situação e urgência</li>
+        <li>Dashboard com MRR, churn rate e renovação</li>
+      </ul>
+      <button class="btn-p" onclick="scroll('#app-section')">Acessar agora →</button>
+    </div>
+    <div class="app-mock rv">
+      <div class="app-bar">
+        <span class="app-bar-title">CS Dashboard · @alemelo_cx</span>
+        <div class="dots"><div class="dot" style="background:#EF5350"></div><div class="dot" style="background:#FFD54F"></div><div class="dot" style="background:#81C784"></div></div>
+      </div>
+      <div class="app-tabs-bar">
+        <div class="at on">Base</div><div class="at">Jornada</div><div class="at">Playbook</div><div class="at">Dashboard</div>
+      </div>
+      <div class="app-body">
+        <div class="kpi-row">
+          <div class="kpi"><div class="kpi-l">Clientes</div><div class="kpi-v">10</div><div class="kpi-s">ativos</div></div>
+          <div class="kpi"><div class="kpi-l">MRR</div><div class="kpi-v" style="font-size:20px">18,2k</div><div class="kpi-s">mensal</div></div>
+          <div class="kpi"><div class="kpi-l">Saúde</div><div class="kpi-v" style="color:#81C784">60%</div><div class="kpi-s">verdes</div></div>
+        </div>
+        <div class="cl-list">
+          <div class="cl"><span class="badge br2">🔴 45d</span><span class="cl-name">Clínica Saúde Total</span><span class="cl-plan">Essencial</span></div>
+          <div class="cl"><span class="badge ba">🟡 32d</span><span class="cl-name">FinServ Consultores</span><span class="cl-plan">Pro</span></div>
+          <div class="cl"><span class="badge bg">🟢 15d</span><span class="cl-name">Acme Tecnologia</span><span class="cl-plan">Premium</span></div>
+          <div class="cl"><span class="badge bg">🟢 18d</span><span class="cl-name">LogTech Soluções</span><span class="cl-plan">Premium</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="app-section" style="background:#1e0e15;border-top:1px solid rgba(184,146,58,.08);">
+  <!-- Header da seção -->
+  <div style="padding:60px 6% 32px;text-align:center">
+    <div style="font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--d);margin-bottom:14px">Ferramenta Gratuita · Ao Vivo</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4vw,46px);color:var(--nu);font-weight:300;margin-bottom:12px">CS Dashboard <em style="font-style:italic;color:var(--dc)">Mínimo Viável</em></h2>
+    <p style="font-size:13px;color:rgba(247,238,230,.38);line-height:1.8;max-width:480px;margin:0 auto 24px">Use agora, sem cadastro. Seus dados ficam salvos no navegador.</p>
+    <a href="https://alexsaangel.github.io/alemelo-cx/" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:var(--d);color:var(--te);font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:14px 28px;text-decoration:none;transition:background .2s;margin-bottom:8px">
+      Abrir em tela cheia →
+    </a>
+    <p style="font-size:11px;color:rgba(247,238,230,.18);margin-top:8px">Gratuito · Sem cadastro · Dados salvos no navegador</p>
+  </div>
+
+  <!-- iframe do dashboard -->
+  <div style="position:relative;width:100%;padding:0 4% 4%">
+    <div style="border:1px solid rgba(184,146,58,.15);overflow:hidden;position:relative;background:#1A0C12">
+      <!-- Barra decorativa do "app" -->
+      <div style="background:#251219;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(184,146,58,.08)">
+        <div style="display:flex;gap:6px">
+          <div style="width:10px;height:10px;border-radius:50%;background:#EF5350"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#FFB300"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#4CAF50"></div>
+        </div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:13px;color:rgba(212,176,106,.6);letter-spacing:.08em">alexsaangel.github.io/alemelo-cx</div>
+        <a href="https://alexsaangel.github.io/alemelo-cx/" target="_blank" style="font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--d);text-decoration:none;padding:4px 12px;border:1px solid rgba(184,146,58,.25)">Abrir ↗</a>
+      </div>
+      <iframe
+        src="https://alexsaangel.github.io/alemelo-cx/"
+        style="width:100%;height:680px;border:none;display:block"
+        title="CS Dashboard Mínimo Viável"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="produtos" id="produtos">
+  <div class="sec-head rv">
+    <div class="sec-label">Produtos</div>
+    <h2>Do gratuito ao premium</h2>
+    <p class="sec-sub">Cada produto é uma etapa do método. Comece de onde faz sentido para você.</p>
+  </div>
+  <div class="prod-grid">
+    <div class="pc rv">
+      <div class="p-tipo">Ferramenta · Gratuito</div>
+      <h3>CS Dashboard Mínimo Viável</h3>
+      <p class="pc-desc">Gerencie sua carteira com Health Score automático, log de interações, playbook de scripts e dashboard de métricas. Sem planilha, sem sistema caro.</p>
+      <div class="pc-preco">Grátis</div>
+      <div class="pc-pl">acesso completo · sem cadastro</div>
+      <button class="pc-btn" onclick="scroll('#app-section')">Acessar agora</button>
+    </div>
+    <div class="pc dest rv">
+      <div class="selo">Mais vendido</div>
+      <div class="p-tipo">eBook · Método Completo</div>
+      <h3>CS Mínimo Viável</h3>
+      <p class="pc-desc">O guia prático para estruturar Customer Success do zero em 30 dias. 7 capítulos, framework dos 5 elementos, plano de 30 dias e planilhas de bônus.</p>
+      <div class="pc-preco">R$ 47</div>
+      <div class="pc-pl">acesso imediato · via Hotmart</div>
+      <button class="pc-btn">Comprar agora</button>
+    </div>
+    <div class="pc rv">
+      <div class="p-tipo">eBook · Operacional</div>
+      <h3>Priorização de Tarefas no CS</h3>
+      <p class="pc-desc">5 técnicas aplicadas ao dia a dia do CSM: Eisenhower, MoSCoW, Valor x Esforço, Pareto e RICE. Pare de apagar incêndio e comece a gerar resultado.</p>
+      <div class="pc-preco">R$ 37</div>
+      <div class="pc-pl">acesso imediato · via Hotmart</div>
+      <button class="pc-btn">Comprar agora</button>
+    </div>
+    <div class="pc rv" style="background:var(--cr);border:2px dashed var(--nm)">
+      <div class="p-tipo">Em breve · Curso Online</div>
+      <h3 style="color:var(--tl)">CS Mínimo Viável — O Curso</h3>
+      <p class="pc-desc" style="color:var(--tl);opacity:.7">O método completo em vídeo. Módulos práticos, templates prontos e comunidade de alunos.</p>
+      <div class="pc-preco" style="color:var(--tl);opacity:.45">Em breve</div>
+      <div class="pc-pl">lista de espera aberta</div>
+      <button class="pc-btn" onclick="scroll('#contato')">Entrar na lista</button>
+    </div>
+  </div>
+</section>
+
+<section class="lead" id="contato">
+  <div class="sec-label rv" style="color:var(--d)">Newsletter</div>
+  <h2 class="rv">Receba conteúdo <strong>que funciona na prática</strong></h2>
+  <p class="lead-sub rv">Toda semana, um insight do método CS Mínimo Viável direto no seu e-mail. Sem teoria vazia, sem enrolação.</p>
+  <div class="l-form rv">
+    <input class="l-in" placeholder="seu@email.com" id="emailLead" type="email">
+    <button class="l-btn" onclick="cap('emailLead')">Quero receber</button>
+  </div>
+  <p class="lead-nota rv">Gratuito · Pode cancelar quando quiser · Sem spam</p>
+</section>
+
+<footer>
+  <div class="f-logo">@alemelo_cx</div>
+  <ul class="f-links">
+    <li><a href="#metodo">Método</a></li>
+    <li><a href="#ferramenta">Ferramenta</a></li>
+    <li><a href="#produtos">Produtos</a></li>
+  </ul>
+  <div class="f-copy">© 2025 Alexsandra Melo · CS Mínimo Viável</div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')})},{threshold:.1})
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el))
+
+function scroll(id){document.querySelector(id).scrollIntoView({behavior:'smooth'})}
+
+function cap(id){
+  const el=document.getElementById(id)
+  const v=el.value
+  if(!v||!v.includes('@')){el.style.outline='2px solid #EF5350';setTimeout(()=>el.style.outline='',1500);return}
+  el.value=''
+  el.placeholder='Recebido! Verifique seu e-mail ✓'
+  el.style.outline='2px solid #81C784'
+}
+
+document.querySelectorAll('.at').forEach(t=>{
+  t.onclick=()=>{document.querySelectorAll('.at').forEach(x=>x.classList.remove('on'));t.classList.add('on')}
+})
+</script>
+</body>
+</html>
